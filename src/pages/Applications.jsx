@@ -1,14 +1,24 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { FolderOpen, ArrowRight } from 'lucide-react';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import Vortex from '../components/ui/Vortex';
+import { useAuth } from '../context/AuthContext';
 
 export default function Applications() {
-    // Hardcoded as empty similar to the original HTML behavior
-    const applications = [];
+    const { user } = useAuth();
+    const [applications, setApplications] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        if (user?.id) {
+            fetch(`http://127.0.0.1:3000/api/user/${user.id}/applications`)
+                .then(res => res.json())
+                .then(data => {
+                    setApplications(data.applications || []);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.error("Failed to fetch applications:", err);
+                    setLoading(false);
+                });
+        }
+    }, [user]);
 
     return (
         <div className="flex h-screen overflow-hidden relative">
@@ -50,7 +60,23 @@ export default function Applications() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-[#334155]">
-                                            {/* Data rows would go here if applications existed. They should use: <tr className="bg-transparent hover:bg-[rgba(16,185,129,0.03)] transition-colors"> */}
+                                            {applications.map((app) => (
+                                                <tr key={app.id} className="bg-transparent hover:bg-[rgba(16,185,129,0.03)] transition-colors">
+                                                    <td className="px-8 py-5 text-white font-medium">{app.title}</td>
+                                                    <td className="px-8 py-5 text-slate-400 font-medium">{app.company}</td>
+                                                    <td className="px-8 py-5 text-slate-400 font-medium">{app.location}</td>
+                                                    <td className="px-8 py-5 text-slate-400 font-medium">{new Date(app.applied_at).toLocaleDateString()}</td>
+                                                    <td className="px-8 py-5 text-right">
+                                                        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold ${
+                                                            app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400' :
+                                                            app.status === 'Declined' ? 'bg-rose-500/10 text-rose-400' :
+                                                            'bg-amber-500/10 text-amber-400'
+                                                        }`}>
+                                                            {app.status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 </div>

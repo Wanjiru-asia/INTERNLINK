@@ -18,14 +18,14 @@ export default function Profile() {
         fullName: userName || '',
         email: userEmail || '',
         phone: '',
-        techField: 'Business Administration',
-        academicLevel: 'Non-Degree / Certificate',
+        technical_field: 'Business Administration',
+        academic_level: 'Non-Degree / Certificate',
         institution: '',
         bio: '',
         linkedin: '',
         github: '',
-        jobType: 'Internship',
-        workPref: 'Hybrid',
+        opportunity_type: 'Internship',
+        work_preference: 'Hybrid',
         relocation: 'Yes'
     });
 
@@ -44,14 +44,14 @@ export default function Profile() {
                 fullName: user.fullname || '',
                 email: user.email || '',
                 phone: user.phone || '',
-                techField: user.techField || 'Business Administration',
-                academicLevel: user.academicLevel || 'Non-Degree / Certificate',
+                technical_field: user.technical_field || 'Business Administration',
+                academic_level: user.academic_level || 'Non-Degree / Certificate',
                 institution: user.institution || '',
                 bio: user.bio || '',
                 linkedin: user.linkedin || '',
                 github: user.github || '',
-                jobType: user.jobType || 'Internship',
-                workPref: user.workPref || 'Hybrid',
+                opportunity_type: user.opportunity_type || 'Internship',
+                work_preference: user.work_preference || 'Hybrid',
                 relocation: user.relocation || 'Yes'
             });
             setSkills(user.skills || []);
@@ -198,7 +198,7 @@ export default function Profile() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="relative group">
-                                        <select id="techField" value={formData.techField} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
+                                        <select id="technical_field" value={formData.technical_field} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
                                             <optgroup label="Business & Economics">
                                                 <option>Business Administration</option>
                                                 <option>Finance & Accounting</option>
@@ -264,12 +264,14 @@ export default function Profile() {
                                                 <option>Special Needs Education</option>
                                             </optgroup>
                                         </select>
-                                        <label htmlFor="techField" className={labelClass}>Field of Study</label>
-                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                        <label htmlFor="technical_field" className={labelClass}>Technical Field of Study</label>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                                            <ChevronDown size={18} />
+                                        </div>
                                     </div>
 
                                      <div className="relative group">
-                                        <select id="academicLevel" value={formData.academicLevel} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
+                                        <select id="academic_level" value={formData.academic_level} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
                                             <optgroup label="Vocational & Technical">
                                                 <option>Vocational Training / Trade School</option>
                                                 <option>Non-Degree / Certificate</option>
@@ -291,7 +293,7 @@ export default function Profile() {
                                                 <option>Recent Graduate (Job Seeker)</option>
                                             </optgroup>
                                         </select>
-                                        <label htmlFor="academicLevel" className={labelClass}>Academic Level</label>
+                                        <label htmlFor="academic_level" className={labelClass}>Academic Level</label>
                                         <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                     </div>
 
@@ -420,21 +422,24 @@ export default function Profile() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div className="relative group">
-                                        <select id="jobType" value={formData.jobType} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
+                                        <select id="opportunity_type" value={formData.opportunity_type} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
                                             <option>Internship</option>
                                             <option>Industrial Attachment</option>
-                                            <option>Both</option>
+                                            <option>Volunteering</option>
+                                            <option>Graduate Program</option>
                                         </select>
-                                        <label htmlFor="jobType" className={labelClass}>Opportunity Type</label>
-                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                                        <label htmlFor="opportunity_type" className={labelClass}>Opportunity Type</label>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                                            <ChevronDown size={18} />
+                                        </div>
                                     </div>
                                     <div className="relative group">
-                                        <select id="workPref" value={formData.workPref} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
-                                            <option>Hybrid</option>
+                                        <select id="work_preference" value={formData.work_preference} onChange={handleInputChange} disabled={!isEditing} className={`appearance-none ${inputClass}`}>
                                             <option>Remote</option>
-                                            <option>Physical</option>
+                                            <option>On-site</option>
+                                            <option>Hybrid</option>
                                         </select>
-                                        <label htmlFor="workPref" className={labelClass}>Work Preference</label>
+                                        <label htmlFor="work_preference" className={labelClass}>Work Preference</label>
                                         <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                                     </div>
                                     <div className="relative group">

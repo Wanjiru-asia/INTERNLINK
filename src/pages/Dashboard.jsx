@@ -12,9 +12,16 @@ export default function Dashboard() {
     const firstName = userName ? userName.split(' ')[0] : 'Explorer';
 
     const [completion, setCompletion] = useState(0);
+    const [applications, setApplications] = useState([]);
 
     useEffect(() => {
-        if (!user) return;
+        if (!user?.id) return;
+
+        // Fetch Applications
+        fetch(`http://127.0.0.1:3000/api/user/${user.id}/applications`)
+            .then(res => res.json())
+            .then(data => setApplications(data.applications || []))
+            .catch(err => console.error("Error fetching dashboard apps:", err));
 
         // Calculate realistic completion
         const weights = {
@@ -41,8 +48,8 @@ export default function Dashboard() {
         if (user.github) totalScore += weights.github;
         if (user.skills && user.skills.length > 0) totalScore += weights.skills;
         if (user.tools && user.tools.length > 0) totalScore += weights.tools;
-        if (user.academicLevel) totalScore += weights.academicLevel;
-        if (user.techField) totalScore += weights.techField;
+        if (user.academic_level) totalScore += weights.academicLevel;
+        if (user.technical_field) totalScore += weights.techField;
 
         setCompletion(Math.min(totalScore, 100));
     }, [user]);
@@ -89,7 +96,7 @@ export default function Dashboard() {
                         {/* Stats Row */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
-                                { label: 'Applications Sent', value: '0', icon: Send, color: '#10b981', bg: 'bg-[#10b981]/[0.05]', iconBg: 'bg-[#10b981]/[0.15]', border: 'border-b-[#10b981]/30' },
+                                { label: 'Applications Sent', value: applications.length.toString(), icon: Send, color: '#10b981', bg: 'bg-[#10b981]/[0.05]', iconBg: 'bg-[#10b981]/[0.15]', border: 'border-b-[#10b981]/30' },
                                 { label: 'Saved Jobs', value: '0', icon: Bookmark, color: '#3b82f6', bg: 'bg-[#3b82f6]/[0.05]', iconBg: 'bg-[#3b82f6]/[0.15]', border: 'border-b-[#3b82f6]/30' },
                                 { label: 'Interviews Scheduled', value: '0', icon: Calendar, color: '#8b5cf6', bg: 'bg-[#8b5cf6]/[0.05]', iconBg: 'bg-[#8b5cf6]/[0.15]', border: 'border-b-[#8b5cf6]/30' },
                                 { label: 'Profile Views', value: '0', icon: Eye, color: '#f59e0b', bg: 'bg-[#f59e0b]/[0.05]', iconBg: 'bg-[#f59e0b]/[0.15]', border: 'border-b-[#f59e0b]/30' }
@@ -191,14 +198,37 @@ export default function Dashboard() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-[#334155]">
-                                            <tr className="bg-transparent hover:bg-[rgba(16,185,129,0.03)] transition-colors">
-                                                <td colSpan="3" className="px-6 py-12 text-center text-slate-400">
-                                                    <div className="flex flex-col items-center gap-2">
-                                                        <Inbox size={32} className="opacity-20" />
-                                                        <span className="text-xs font-medium">No recent applications found</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            {applications.length > 0 ? (
+                                                applications.slice(0, 3).map((app) => (
+                                                    <tr key={app.id} className="bg-transparent hover:bg-[rgba(16,185,129,0.03)] transition-colors">
+                                                        <td className="px-6 py-4">
+                                                            <div className="font-bold text-white text-sm">{app.title}</div>
+                                                            <div className="text-[10px] text-slate-500">{app.company}</div>
+                                                        </td>
+                                                        <td className="px-6 py-4 text-slate-400 text-xs font-medium">
+                                                            {new Date(app.applied_at).toLocaleDateString()}
+                                                        </td>
+                                                        <td className="px-6 py-4 text-right">
+                                                            <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-tighter ${
+                                                                app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400' :
+                                                                app.status === 'Declined' ? 'bg-rose-500/10 text-rose-400' :
+                                                                'bg-amber-500/10 text-amber-400'
+                                                            }`}>
+                                                                {app.status}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr className="bg-transparent hover:bg-[rgba(16,185,129,0.03)] transition-colors">
+                                                    <td colSpan="3" className="px-6 py-12 text-center text-slate-400">
+                                                        <div className="flex flex-col items-center gap-2">
+                                                            <Inbox size={32} className="opacity-20" />
+                                                            <span className="text-xs font-medium">No recent applications found</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>

@@ -28,7 +28,7 @@ export default function Opportunities() {
     const [userProfile, setUserProfile] = useState({
         fullname: user?.fullname || 'User',
         skills: user?.skills || [],
-        preferredRole: user?.techField || ''
+        preferredRole: user?.technical_field || ''
     });
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function Opportunities() {
             setUserProfile({
                 fullname: user.fullname || 'User',
                 skills: user.skills || [],
-                preferredRole: user.techField || ''
+                preferredRole: user.technical_field || ''
             });
         }
     }, [user]);
@@ -83,6 +83,7 @@ export default function Opportunities() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    userId: user.id, // Pass real userId
                     jobId: job.id,
                     jobTitle: job.title,
                     company: job.company,
