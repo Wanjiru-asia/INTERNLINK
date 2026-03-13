@@ -54,7 +54,7 @@ export default function Sidebar() {
                     </div>
                     {!collapsed && (
                         <div className="flex flex-col">
-                            <span className="font-black text-2xl text-white tracking-tighter leading-none">AIVOLT</span>
+                            <span className="font-black text-2xl text-white tracking-tighter leading-none">INTERNLINK</span>
                             <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] mt-1">Tracker Hub</span>
                         </div>
                     )}

@@ -264,8 +264,8 @@ export default function Signup() {
                 <div className="lg:w-[45%] flex flex-col justify-center p-12 lg:p-16 relative">
                     <div className="w-full max-w-[380px] mx-auto">
                         <div className="mb-10 text-center lg:text-left">
-                            <h1 className="text-3xl font-extrabold text-white mb-2">Initialize Profile</h1>
-                            <p className="text-slate-400 font-medium">Student Internship and Attachment Hub.</p>
+                            <h2 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Join Internlink Kenya</h2>
+                    <p className="text-slate-400 font-medium italic">The #1 hub for Kenyan internship & attachment tracking.</p>
                         </div>
 
                         {!success ? (
@@ -404,8 +404,8 @@ export default function Signup() {
                                 <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <CheckCircle2 size={40} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white mb-2">User successfully created</h2>
-                                <p className="text-slate-400 font-medium mb-8">Your Aivolt identity is now live in our network.</p>
+                                <h2 className="text-2xl font-bold text-white mb-2">Profile Initialized</h2>
+                                <p className="text-slate-400 font-medium mb-8">Your Internlink identity is now live in the network.</p>
                                 <button
                                     onClick={() => navigate('/dashboard')}
                                     className="font-bold text-emerald-500 hover:text-emerald-400 hover:underline underline-offset-4"

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Info, Briefcase, Target, ChevronDown, Linkedin, Github, Plus, X } from 'lucide-react';
@@ -5,6 +6,8 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import Vortex from '../components/ui/Vortex';
 import { useAuth } from '../context/AuthContext';
+
+const API_BASE = 'http://localhost:3000';
 
 export default function Profile() {
     const { user, login, userId, refreshUser, userName, userEmail } = useAuth();
@@ -92,20 +95,29 @@ export default function Profile() {
         e.preventDefault();
         setLoading(true);
 
-        // Simulate a delay for realism
-        setTimeout(async () => {
-            const profileData = { ...formData, skills, tools };
-            
-            // Save to localStorage specifically for this userId
-            localStorage.setItem(`profile_${userId}`, JSON.stringify(profileData));
-            
-            // Update context manually
-            login({ ...user, ...profileData });
-            
-            setIsEditing(false);
+        const profileData = { ...formData, skills, tools };
+
+        try {
+            const response = await fetch(`${API_BASE}/api/user/${userId}/profile`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profileData)
+            });
+
+            if (response.ok) {
+                await refreshUser();
+                setIsEditing(false);
+                alert('Profile updated and saved to the database!');
+            } else {
+                const data = await response.json();
+                alert(data.error || 'Failed to update profile');
+            }
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            alert('Connection error. Is the server running?');
+        } finally {
             setLoading(false);
-            alert('Profile updated and saved to local storage!');
-        }, 800);
+        }
     };
 
     // Helper classes for inputs based on editing state

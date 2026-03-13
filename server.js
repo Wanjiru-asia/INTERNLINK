@@ -34,7 +34,7 @@ db.connect((err) => {
 
 // Health Check
 app.get('/', (req, res) => {
-    res.send('<h1>🚀 Aivolt Server is LIVE</h1><p>The backend is successfully talking to the browser.</p>');
+    res.send('<h1>🚀 Internlink Server is LIVE</h1><p>The backend is successfully talking to the browser.</p>');
 });
 
 // Registration API Endpoint
@@ -104,7 +104,20 @@ app.post('/api/login', async (req, res) => {
             console.log(`[${new Date().toLocaleTimeString()}] ✅ SUCCESS: ${email} logged in (ID: ${user.id})`);
             res.status(200).json({
                 message: 'Login successful!',
-                user: { id: user.id, fullname: user.fullname, email: user.email }
+                user: { 
+                    id: user.id, 
+                    fullname: user.fullname, 
+                    email: user.email,
+                    phone: user.phone,
+                    techField: user.techField,
+                    academicLevel: user.academicLevel,
+                    institution: user.institution,
+                    bio: user.bio,
+                    linkedin: user.linkedin,
+                    github: user.github,
+                    skills: user.skills ? JSON.parse(user.skills) : [],
+                    tools: user.tools ? JSON.parse(user.tools) : []
+                }
             });
         });
     } catch (error) {
@@ -117,7 +130,7 @@ app.get('/api/user/:id', (req, res) => {
     const userId = req.params.id;
     console.log(`[${new Date().toLocaleTimeString()}] 👤 Fetching profile for ID: ${userId}`);
 
-    const sql = 'SELECT id, fullname, email FROM users WHERE id = ?';
+    const sql = 'SELECT id, fullname, email, phone, techField, academicLevel, institution, bio, linkedin, github, skills, tools FROM users WHERE id = ?';
     db.query(sql, [userId], (err, results) => {
         if (err) {
             console.error(`[${new Date().toLocaleTimeString()}] 🛑 Database Error:`, err.message);
@@ -130,8 +143,38 @@ app.get('/api/user/:id', (req, res) => {
         }
 
         const user = results[0];
+        // Parse JSON fields
+        if (user.skills) user.skills = JSON.parse(user.skills);
+        if (user.tools) user.tools = JSON.parse(user.tools);
+
         console.log(`[${new Date().toLocaleTimeString()}] ✅ SUCCESS: Profile sent for ${user.email}`);
         res.status(200).json({ user });
+    });
+});
+
+// Update User Profile Endpoint
+app.post('/api/user/:id/profile', (req, res) => {
+    const userId = req.params.id;
+    const { phone, techField, academicLevel, institution, bio, linkedin, github, skills, tools } = req.body;
+    console.log(`[${new Date().toLocaleTimeString()}] 📝 Updating profile for ID: ${userId}`);
+
+    const sql = `
+        UPDATE users 
+        SET phone = ?, techField = ?, academicLevel = ?, institution = ?, bio = ?, 
+            linkedin = ?, github = ?, skills = ?, tools = ? 
+        WHERE id = ?
+    `;
+
+    const skillsJson = JSON.stringify(skills || []);
+    const toolsJson = JSON.stringify(tools || []);
+
+    db.query(sql, [phone, techField, academicLevel, institution, bio, linkedin, github, skillsJson, toolsJson, userId], (err, result) => {
+        if (err) {
+            console.error(`[${new Date().toLocaleTimeString()}] 🛑 Database Error:`, err.message);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        console.log(`[${new Date().toLocaleTimeString()}] ✅ SUCCESS: Profile updated for ID: ${userId}`);
+        res.status(200).json({ message: 'Profile updated successfully' });
     });
 });
 
@@ -224,6 +267,6 @@ ${userProfile?.fullname || 'Applicant'}`;
 
 // Start Server
 app.listen(port, '0.0.0.0', () => {
-    console.log(`\n🚀 AIVOLT SERVER ACTIVE`);
+    console.log(`\n🚀 INTERNLINK SERVER ACTIVE`);
     console.log(`URL: http://127.0.0.1:${port}\n`);
 });

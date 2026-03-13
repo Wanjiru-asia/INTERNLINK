@@ -9,11 +9,8 @@ export function AuthProvider({ children }) {
     });
 
     const login = (userData) => {
-        // Load additional profile data from localStorage to stay "realistic" without DB changes
-        const extraData = JSON.parse(localStorage.getItem(`profile_${userData.id}`)) || {};
-        const combinedData = { ...userData, ...extraData };
-        setUser(combinedData);
-        localStorage.setItem('user', JSON.stringify(combinedData));
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {

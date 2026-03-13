@@ -189,7 +189,7 @@ export default function Login() {
                                 <path d="M12 3l1.912 5.886h6.191l-5.008 3.638 1.912 5.886L12 14.772l-5.007 3.638 1.912-5.886-5.008-3.638h6.191L12 3z" />
                             </svg>
                         </div>
-                        <span>Aivolt</span>
+                        <span>Internlink</span>
                     </div>
 
                     <div className="relative z-20 flex items-end justify-center px-4 mix-blend-screen">
@@ -253,8 +253,8 @@ export default function Login() {
                 <div className="lg:w-[45%] flex flex-col justify-center p-12 lg:p-16 relative">
                     <div className="w-full max-w-[380px] mx-auto">
                         <div className="mb-10 text-center lg:text-left">
-                            <h1 className="text-3xl font-extrabold text-white mb-2">Welcome Back</h1>
-                            <p className="text-slate-400 font-medium">Student Internship and Attachment Hub.</p>
+                            <h2 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Welcome back to Internlink</h2>
+                    <p className="text-slate-400 font-medium italic">Empowering Kenya's next generation of professionals.</p>
                         </div>
 
                         {!success ? (
@@ -332,8 +332,8 @@ export default function Login() {
                                 <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <CheckCircle2 size={40} />
                                 </div>
-                                <h2 className="text-2xl font-bold text-white mb-2">Link Established</h2>
-                                <p className="text-slate-400 font-medium mb-8">Your connection is secure. Accessing hub...</p>
+                                <h2 className="text-2xl font-bold text-white mb-2">Access Granted</h2>
+                                <p className="text-slate-400 font-medium mb-8">Welcome back to Internlink. Your connection is secure.</p>
                                 <button
                                     onClick={() => navigate('/dashboard')}
                                     className="font-bold text-emerald-500 hover:text-emerald-400 hover:underline underline-offset-4"
@@ -344,7 +344,7 @@ export default function Login() {
                         )}
 
                         <p className="text-center mt-10 text-sm font-semibold text-slate-400">
-                            New to Aivolt? <Link to="/signup" className="text-emerald-500 font-bold hover:underline">Create an account</Link>
+                            New to Internject? <Link to="/signup" className="text-emerald-500 font-bold hover:underline">Create an account</Link>
                         </p>
                     </div>
                 </div>

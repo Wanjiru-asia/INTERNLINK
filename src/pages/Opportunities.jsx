@@ -42,6 +42,12 @@ export default function Opportunities() {
     }, [user]);
 
     const handleConfirmAndSearch = async () => {
+        // Validation: Ensure we have at least some data to search with
+        if (!userProfile.skills.length && !userProfile.preferredRole) {
+            alert('Please add some skills or a target role first so our AI can find the right matches for you!');
+            return;
+        }
+
         setStep('searching');
         setOpportunities([]);
 
@@ -160,13 +166,17 @@ export default function Opportunities() {
                                         <div>
                                             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Current Skills</label>
                                             <div className="flex flex-wrap gap-2">
-                                                {userProfile.skills.map(skill => (
-                                                    <span key={skill} className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-sm font-medium border border-slate-700">
-                                                        {skill}
-                                                    </span>
-                                                ))}
-                                                <button onClick={() => alert('Skill addition workflow opening...')} className="px-3 py-1.5 border border-dashed border-slate-600 text-slate-500 rounded-lg text-sm font-medium hover:text-slate-300 hover:border-slate-500 transition-colors">
-                                                    + Add Skill
+                                                {userProfile.skills.length > 0 ? (
+                                                    userProfile.skills.map(skill => (
+                                                        <span key={skill} className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-sm font-medium border border-slate-700">
+                                                            {skill}
+                                                        </span>
+                                                    ))
+                                                ) : (
+                                                    <p className="text-rose-400 text-xs font-bold italic py-2">No skills detected. Our AI needs skills to match you properly.</p>
+                                                )}
+                                                <button onClick={() => navigate('/profile')} className="px-3 py-1.5 border border-dashed border-emerald-500/30 text-emerald-500 rounded-lg text-sm font-medium hover:bg-emerald-500/5 transition-colors">
+                                                    Manage in Profile
                                                 </button>
                                             </div>
                                             <p className="text-xs text-emerald-500 mt-3 font-medium flex items-center gap-1">
@@ -177,11 +187,22 @@ export default function Opportunities() {
 
                                     <button
                                         onClick={handleConfirmAndSearch}
-                                        className="w-full py-4 bg-[#10b981] text-white font-bold rounded-2xl text-lg shadow-[0_8px_32px_-8px_rgba(16,185,129,0.5)] hover:shadow-[0_8px_32px_-4px_rgba(16,185,129,0.6)] hover:-translate-y-[2px] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
+                                        disabled={!userProfile.skills.length && !userProfile.preferredRole}
+                                        className={`w-full py-4 font-bold rounded-2xl text-lg transition-all flex items-center justify-center gap-2 group ${
+                                            (!userProfile.skills.length && !userProfile.preferredRole)
+                                            ? "bg-slate-700 text-slate-500 cursor-not-allowed border border-slate-600"
+                                            : "bg-[#10b981] text-white shadow-[0_8px_32px_-8px_rgba(16,185,129,0.5)] hover:shadow-[0_8px_32px_-4px_rgba(16,185,129,0.6)] hover:-translate-y-[2px] active:scale-[0.98]"
+                                        }`}
                                     >
                                         <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
                                         Initialize AI Search
                                     </button>
+                                    
+                                    {(!userProfile.skills.length && !userProfile.preferredRole) && (
+                                        <p className="text-center mt-4 text-xs font-bold text-rose-500/80 uppercase tracking-widest">
+                                            ⚠️ Profile incomplete
+                                        </p>
+                                    )}
                                 </div>
                             </motion.div>
                         )}

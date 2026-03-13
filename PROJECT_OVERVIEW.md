@@ -1,13 +1,13 @@
-# Aivolt Internship and Attachment Tracker 🚀
+# Internlink Internship and Attachment Tracker 🚀
 
-Aivolt is a cutting-edge platform designed to streamline the internship and industrial attachment search process for students and recent graduates across all fields of study, including Law, Finance, Project Management, Supply Chain, and more.
+Internlink is a cutting-edge platform designed to streamline the internship and industrial attachment search process for students and recent graduates across all fields of study, including Law, Finance, Project Management, Supply Chain, and more.
 
 ## 🎯 Project Goals
 The project aims to provide a centralized hub where users can:
 - **Track Applications**: Manage and monitor the status of internship applications in real-time.
-- **Discover Opportunities**: Find curated internship and attachment openings tailored to their specific course of study.
-- **Personalized Matching**: Leverage data to match user profiles with the most relevant opportunities.
-- **Professional Presence**: Create and maintain a professional profile to showcase their skills and academic background to potential employers.
+- **Curated Discoveries**: Find internship and attachment openings tailored specifically to Kenyan university and college courses.
+- **Dynamic Matching**: Automatically assess project and technical skill alignment for better placement.
+- **Professional Presence**: Build a high-end academic and professional profile visible to vetted industry partners.
 
 ## ✨ Core Features
 - **Dynamic Dashboard**: A comprehensive overview of application statistics, profile completion, and recommended opportunities.
@@ -33,8 +33,7 @@ The project aims to provide a centralized hub where users can:
 ## 📁 Project Structure
 - `src/pages/`: Contains main application views (Login, Signup, Dashboard, Profile, etc.).
 - `src/components/`: Reusable UI components (Sidebar, Header, Vortex, etc.).
-- `server.js`: The central entry point for the Express backend.
-- `update_db.js`: Utility script for managing database schema migrations.
+- `server.js`: The central entry point for the Express backend handling authentication.
 
 ---
 *Empowering every student to find their perfect internship opportunity.*
